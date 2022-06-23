@@ -18,7 +18,7 @@ class PlatziReactive {
                 return "";
             },
 
-            set (target, name, value) {
+            set(target, name, value) {
                 Reflect.set(target, name, value);
                 self.trigger(name);
             }
@@ -30,6 +30,10 @@ class PlatziReactive {
             const effect = () => {
                 document.querySelectorAll(`*[p-text=${name}]`).forEach(el => {
                     this.pText(el, target, name);
+                });
+
+                document.querySelectorAll(`*[p-model=${name}]`).forEach(el => {
+                    this.pModel(el, target, name);
                 });
             };
             this.deps.set(name, effect);
