@@ -9,8 +9,10 @@
   <body>
     <div id="app">
       <span p-text="message"></span> <br>
-      <input type="text" p-model="message">
-      <input type="text" p-model="message">
+      <input type="text" p-model="message"> <br>
+      <label for="">IMG URL:</label>
+      <input type="text" p-model="url"> <br>
+      <img p-bind="src:url">
     </div>
 
     <script src="./platzi.js"></script>
@@ -19,7 +21,8 @@
         const app = createApp({
             data() {
                 return {
-                    message: "Hello FRNCO"
+                    message: "Hello, Vue",
+                    url: "https://cdn.pixabay.com/photo/2022/01/04/16/01/lighthouse-6915406_960_720.jpg"
                 };
             }
         });
