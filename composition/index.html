@@ -45,7 +45,10 @@
         <p class="description__content"> </p>
         <div class="discount">
           <span>Cuppon</span>
-          <input type="text" placeholder="Enter your code" @keyup.enter="product.price *= 0.5">
+          <input 
+            type="text" 
+            placeholder="Enter your code" 
+            @keyup.enter="product.price *= 0.5">
         </div>
         <button :disabled="product.stock == 0" @click="product.stock -= 1">Add to cart</button>
       </section>
@@ -83,28 +86,7 @@
 
         const activeImage = ref(0);
         const cartOpen = ref(false);
-        const cart = ref([
-          {
-            name: "Camera PL",
-            price: 1_500,
-            stock: 0,
-            content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet delectus, cum
-              blanditiis eos quas illo eaque aperiam harum quae soluta ducimus distinctio doloribus est sunt, maiores
-              molestiae natus recusandae praesentium.`,
-            images: [
-              {
-                image: "./images/camera.jpg",
-                thumbnail: "./images/camera-thumb.jpg"
-              },
-              {
-                image: "./images/camera-2.jpg",
-                thumbnail: "./images/camera-2-thumb.jpg"
-              }
-            ],
-            new: false,
-            offer: false,
-          },
-        ]);
+        const cart = ref([]);
         setTimeout(() => {
           activeImage.value = 1
         }, 2000)
