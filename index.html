@@ -15,13 +15,13 @@
     <header>
       <h3>Platzi Commerce</h3>
       <button class="cart">Cart (0)</button>
-      <div class="cart-content" v-show="product.cartOpen">
-        <div class="cart-content__product">
+      <div class="cart-content" v-show="cartOpen">
+        <div 
+          class="cart-content__product" 
+          v-for="(product, index) in cart" 
+          :key="product.name"
+          :class="{'bg-gray': index & 1}">
           <img :src="product.images[0].image" :alt="product.name.toUpperCase()">
-          <span>{{ product.name }} - ${{ new Intl.NumberFormat("es-MX").format(product.price) }}</span>
-        </div>
-        <div class="cart-content__product">
-          <img :src="product.images[1].image" alt="product.name.toUpperCase()">
           <span>{{ product.name }} - ${{ new Intl.NumberFormat("es-MX").format(product.price) }}</span>
         </div>
       </div>
@@ -29,8 +29,12 @@
     <main>
       <section class="product">
         <div class="product__thumbnails">
-          <div class="thumb" :class="{active: product.activeImage == 0}"
-            :style="{backgroundImage : `url(${product.images[0].thumbnail})`}"></div>
+          <div 
+            v-for="(image, i) in product.images"
+            :key="image.thumbnail"
+            class="thumb" 
+            :class="{active: activeImage == i}"
+            :style="{backgroundImage : `url(${product.images[i].thumbnail})`}"></div>
         </div>
         <div class="product__image">
           <img src="" alt="">
@@ -66,8 +70,8 @@
             price: 2_500,
             stock: 0,
             content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet delectus, cum
-          blanditiis eos quas illo eaque aperiam harum quae soluta ducimus distinctio doloribus est sunt, maiores
-          molestiae natus recusandae praesentium.`,
+              blanditiis eos quas illo eaque aperiam harum quae soluta ducimus distinctio doloribus est sunt, maiores
+              molestiae natus recusandae praesentium.`,
             images: [
               {
                 image: "./images/camera.jpg",
@@ -80,10 +84,72 @@
             ],
             new: false,
             offer: false,
-            activeImage: 0,
-            cartOpen: true
-          }
-        }
+          },
+          activeImage: 0,
+          cartOpen: true,
+          cart: [
+            {
+              name: "Camera PL",
+              price: 1_500,
+              stock: 0,
+              content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet delectus, cum
+              blanditiis eos quas illo eaque aperiam harum quae soluta ducimus distinctio doloribus est sunt, maiores
+              molestiae natus recusandae praesentium.`,
+              images: [
+                {
+                  image: "./images/camera.jpg",
+                  thumbnail: "./images/camera-thumb.jpg"
+                },
+                {
+                  image: "./images/camera-2.jpg",
+                  thumbnail: "./images/camera-2-thumb.jpg"
+                }
+              ],
+              new: false,
+              offer: false,
+            },
+            {
+              name: "Camera PL2",
+              price: 3_500,
+              stock: 0,
+              content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet delectus, cum
+              blanditiis eos quas illo eaque aperiam harum quae soluta ducimus distinctio doloribus est sunt, maiores
+              molestiae natus recusandae praesentium.`,
+              images: [
+                {
+                  image: "./images/camera.jpg",
+                  thumbnail: "./images/camera-thumb.jpg"
+                },
+                {
+                  image: "./images/camera-2.jpg",
+                  thumbnail: "./images/camera-2-thumb.jpg"
+                }
+              ],
+              new: false,
+              offer: false,
+            },
+            {
+              name: "Camera",
+              price: 2_500,
+              stock: 0,
+              content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet delectus, cum
+              blanditiis eos quas illo eaque aperiam harum quae soluta ducimus distinctio doloribus est sunt, maiores
+              molestiae natus recusandae praesentium.`,
+              images: [
+                {
+                  image: "./images/camera.jpg",
+                  thumbnail: "./images/camera-thumb.jpg"
+                },
+                {
+                  image: "./images/camera-2.jpg",
+                  thumbnail: "./images/camera-2-thumb.jpg"
+                }
+              ],
+              new: false,
+              offer: false,
+            },
+          ],
+        };
       }
     });
     app.mount("#app");
