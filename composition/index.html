@@ -19,7 +19,8 @@
         <div class="cart-content__product" v-for="(product, index) in cart" :key="product.name"
           :class="{'bg-gray': index & 1}">
           <img :src="product.images[0].image" :alt="product.name.toUpperCase()">
-          <span>{{ product.name }} - ${{ new Intl.NumberFormat("es-MX").format(product.price) }} ({{product.quantity}})</span>
+          <span>{{ product.name }} - ${{ new Intl.NumberFormat("es-MX").format(product.price) }}
+            ({{product.quantity}})</span>
         </div>
       </div>
     </header>
@@ -45,14 +46,9 @@
         <p class="description__content"> </p>
         <div class="discount">
           <span>Cuppon</span>
-          <input 
-            type="text" 
-            placeholder="Enter your code" 
-            @keyup.enter="applyDiscount($event)">
+          <input type="text" placeholder="Enter your code" @keyup.enter="applyDiscount($event)">
         </div>
-        <button 
-        :disabled="product.stock == 0" 
-        @click="addToCart">Add to cart</button>
+        <button :disabled="product.stock == 0" @click="addToCart">Add to cart</button>
       </section>
     </main>
   </div>
@@ -60,12 +56,12 @@
 
   <script src="https://unpkg.com/vue@next"></script>
   <script>
-    const { createApp, ref } = Vue;
+    const { createApp, ref, reactive, toRef } = Vue;
 
     const app = createApp({
       setup() {
-        const product = ref(
-          {
+        const productState = reactive({
+          product: {
             name: "Camera",
             price: 2_500,
             stock: 5,
@@ -84,39 +80,40 @@
             ],
             new: true,
             offer: false,
-            quantity: 1
+            quantity: 1,
+          },
+
+          activeImage: 0,
         });
 
-        const activeImage = ref(0);
-        const cartOpen = ref(false);
+        const cartState = reference({
+          cartOpen: false,
+          cart: [],
+        });
 
-        const cart = ref([]);
-        function addToCart(){
-          const prodIndex = cart.value.findIndex(prod => prod.name == product.value.name);
-          if (prodIndex >= 0){
-            cart.value[prodIndex].quantity += 1;
+        function addToCart() {
+          const prodIndex = cartState.cart.findIndex(prod => prod.name == productState.product.name);
+          if (prodIndex >= 0) {
+            cartState.cart[prodIndex].quantity += 1;
           } else {
-            cart.value.push(product.value);
+            cartState.cart.push(productState.product);
           }
-          product.value.stock -= 1;
+          productState.product.stock -= 1;
         }
 
-
         const discountCodes = ref(["VUE20", "FRNCO"]);
-        function applyDiscount(event){
+        function applyDiscount(event) {
           const discountCodeIndex = discountCodes.value.indexOf(event.target.value);
-          if (discountCodeIndex >= 0){
-            product.value.price *= 0.5;
+          if (discountCodeIndex >= 0) {
+            productState.product.price *= 0.5;
             discountCodes.value.splice(discountCodeIndex, 1);
           }
         }
-        
+
 
         return {
-          product, 
-          activeImage, 
-          cartOpen,
-          cart,
+          ...toRefs(productState),
+          ...toRefs(cartState),
           applyDiscount,
           addToCart
         };
