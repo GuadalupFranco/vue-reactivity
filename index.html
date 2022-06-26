@@ -11,18 +11,18 @@
 
 <body>
 
-  <div id="#app">
+  <div id="app">
     <header>
       <h3>Platzi Commerce</h3>
       <button class="cart">Car (0)</button>
       <div class="cart-content">
         <div class="cart-content__producto">
           <img src="" alt="">
-          <span>Product - $500,000</span>
+          <span>{{ product.name }} - ${{  new Intl.NumberFormat("es-MX").format(product.price) }}</span>
         </div>
         <div class="cart-content__producto">
           <img src="" alt="">
-          <span>Product - $500,000</span>
+          <span>{{ product.name }} - ${{  new Intl.NumberFormat("es-MX").format(product.price) }}</span>
         </div>
       </div>
     </header>
@@ -36,26 +36,48 @@
         </div>
       </section>
       <section class="description">
-        <h4>Product</h4>
+        <h4>{{ product.name.toUpperCase() }} {{ product.stock === 0 ? "" : ":)"}}</h4>
         <span class="badge new">New</span>
         <span class="badge offer">Offer</span>
         <p class="description__status"></p>
-        <p class="description__price">$500,000</p>
-        <p class="description__content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet delectus, cum
-          blanditiis eos quas illo eaque aperiam harum quae soluta ducimus distinctio doloribus est sunt, maiores
-          molestiae natus recusandae praesentium. </p>
+        <p class="description__price">${{  new Intl.NumberFormat("es-MX").format(product.price) }}</p>
+        <p class="description__content"> </p>
         <div class="discount">
           <span>Cuppon</span>
           <input type="text" placeholder="Enter your code">
         </div>
       </section>
     </main>
-
   </div>
+
+  
   <script src="https://unpkg.com/vue@next"></script>
   <script>
-    const {createApp} = Vue;
-    const app = createApp();
+    const { createApp } = Vue;
+    const app = createApp({
+      data() {
+        return {
+          product: {
+            name: "Camera",
+            price: 2_500,
+            stock: 0,
+            content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet delectus, cum
+          blanditiis eos quas illo eaque aperiam harum quae soluta ducimus distinctio doloribus est sunt, maiores
+          molestiae natus recusandae praesentium.`,
+            images: [
+              {
+                image: "./images/camera.jpg",
+                thumbnail: "./images/camera-thumb.jpg"
+              },
+              {
+                image: "./images/camera.2.jpg",
+                thumbnail: "./images/camera-2-thumb.jpg"
+              },
+            ]
+          }
+        }
+      }
+    });
     app.mount("#app");
   </script>
 </body>
