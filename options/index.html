@@ -39,72 +39,7 @@
     const app = createApp({
       data() {
         return {
-          products: [
-            {
-              name: "Camera",
-              price: 2_500,
-              stock: 2,
-              content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet delectus, cum
-                  blanditiis eos quas illo eaque aperiam harum quae soluta ducimus distinctio doloribus est sunt, maiores
-                  molestiae natus recusandae praesentium.`,
-              images: [
-                {
-                  image: "./images/camera.jpg",
-                  thumbnail: "./images/camera-thumb.jpg"
-                },
-                {
-                  image: "./images/camera-2.jpg",
-                  thumbnail: "./images/camera-2-thumb.jpg"
-                }
-              ],
-              new: true,
-              offer: false,
-              quantity: 1,
-            },
-            {
-              name: "Camera PL",
-              price: 3_500,
-              stock: 6,
-              content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet delectus, cum
-                  blanditiis eos quas illo eaque aperiam harum quae soluta ducimus distinctio doloribus est sunt, maiores
-                  molestiae natus recusandae praesentium.`,
-              images: [
-                {
-                  image: "./images/camera.jpg",
-                  thumbnail: "./images/camera-thumb.jpg"
-                },
-                {
-                  image: "./images/camera-2.jpg",
-                  thumbnail: "./images/camera-2-thumb.jpg"
-                }
-              ],
-              new: false,
-              offer: true,
-              quantity: 1,
-            },
-            {
-              name: "Camera PL2",
-              price: 4_500,
-              stock: 4,
-              content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet delectus, cum
-                  blanditiis eos quas illo eaque aperiam harum quae soluta ducimus distinctio doloribus est sunt, maiores
-                  molestiae natus recusandae praesentium.`,
-              images: [
-                {
-                  image: "./images/camera.jpg",
-                  thumbnail: "./images/camera-thumb.jpg"
-                },
-                {
-                  image: "./images/camera-2.jpg",
-                  thumbnail: "./images/camera-2-thumb.jpg"
-                }
-              ],
-              new: true,
-              offer: true,
-              used: true,
-              quantity: 1,
-            },
-          ],
+          products: [],
           cartOpen: true,
           cart: [],
 
@@ -130,6 +65,13 @@
             return prevPrice * prevQuantity + curr.price * curr.quantity;
           }, 0)
         }
+      },
+      created() {
+        fetch("https://my-json-server.typicode.com/iosamuel/demo/products")
+          .then(res => res.json())
+          .then(data => {
+            this.products = data;
+          })
       }
 
     });
