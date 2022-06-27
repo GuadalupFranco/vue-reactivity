@@ -36,29 +36,9 @@ app.component("product", {
         <button :disabled="product.stock == 0" @click="addToCart()">Add to cart</button>
       </section>
     `,
+    props: ["product"],
     data() {
         return {
-            product: {
-                name: "Camera",
-                price: 2_500,
-                stock: 5,
-                content: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet delectus, cum
-                  blanditiis eos quas illo eaque aperiam harum quae soluta ducimus distinctio doloribus est sunt, maiores
-                  molestiae natus recusandae praesentium.`,
-                images: [
-                    {
-                        image: "./images/camera.jpg",
-                        thumbnail: "./images/camera-thumb.jpg"
-                    },
-                    {
-                        image: "./images/camera-2.jpg",
-                        thumbnail: "./images/camera-2-thumb.jpg"
-                    }
-                ],
-                new: false,
-                offer: false,
-                quantity: 1,
-            },
             activeImage: 0,
             discountCodes: ["VUE20", "FRNCO"],
         }
