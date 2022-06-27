@@ -21,7 +21,7 @@ app.component("product", {
         <p class="description__status" v-if="product.stock <= 4 && product.stock > 1">There are a few units left</p>
         <p class="description__status" v-else-if="product.stock == 1">Just one unit</p>
         <p class="description__status" v-else-if="product.stock == 0">Not available</p>
-        <p class="description__price">
+        <p class="description__price" :style="{ color: price_color }">
             $ {{ new Intl.NumberFormat("es-MX").format(product.price) }}
         </p>
         <p class="description__content"> </p>
@@ -42,6 +42,7 @@ app.component("product", {
         return {
             activeImage: 0,
             discountCodes: ["VUE20", "FRNCO"],
+            price_color: "rgb(104, 104, 209)",
         }
     },
     methods: {
@@ -54,6 +55,17 @@ app.component("product", {
         }, 
         sendToCart() {
             this.$emit("sendtocart", this.product);
+        }
+    }, 
+    watch: {
+        activeImage(value, oldValue) {
+            console.log(value, oldValue);
+        },
+
+        "product.stock"(stock) {
+            if (stock <= 1) {
+                this.price_color = "rgb(188 30 67)";
+            }
         }
     }
 })

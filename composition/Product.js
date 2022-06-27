@@ -1,5 +1,5 @@
 app.component("product", {
-	template: /* vue-html*/`
+    template: /* vue-html*/`
     <section class="product">
         <div class="product__thumbnails">
             <div 
@@ -20,7 +20,7 @@ app.component("product", {
         <p class="description__status" v-if="product.stock <= 4 && product.stock > 1">There are a few units left</p>
         <p class="description__status" v-else-if="product.stock == 1">Just one unit</p>
         <p class="description__status" v-else-if="product.stock == 0">Not available</p>
-        <p class="description__price">$ {{ new Intl.NumberFormat("es-MX").format(product.price) }}</p>
+        <p class="description__price" :style="{ color: price_color }">$ {{ new Intl.NumberFormat("es-MX").format(product.price) }}</p>
         <p class="description__content"> </p>
         <div class="discount">
           <span>Cuppon</span>
@@ -29,33 +29,44 @@ app.component("product", {
         <button :disabled="product.stock == 0" @click="sendToCart()">Add to cart</button>
     </section>
     `,
-		
-	props: ["product"],
+
+    props: ["product"],
 
     emits: ["sendtocart"],
 
-	setup(props, context) {
-		const productState = reactive({
-			activeImage: 0,
-		});
+    setup(props, context) {
+        const productState = reactive({
+            activeImage: 0,
+            price_color: "rgb(104, 104, 209)"
+        });
 
-		const discountCodes = ref(["VUE20", "FRNCO"]);
-		function applyDiscount(event) {
-			const discountCodeIndex = discountCodes.value.indexOf(event.target.value);
-			if (discountCodeIndex >= 0) {
-				props.product.price *= 0.5;
-				discountCodes.value.splice(discountCodeIndex, 1);
-			}
-		}
+        const discountCodes = ref(["VUE20", "FRNCO"]);
+        function applyDiscount(event) {
+            const discountCodeIndex = discountCodes.value.indexOf(event.target.value);
+            if (discountCodeIndex >= 0) {
+                props.product.price *= 0.5;
+                discountCodes.value.splice(discountCodeIndex, 1);
+            }
+        }
 
-        function sendToCart(){
+        function sendToCart() {
             context.emit("sendtocart", props.product);
         }
 
-		return {
-			...toRefs(productState),
-			applyDiscount,
+        watch(() => productState.activeImage, (val, oldValue) => {
+            console.log(val, oldValue)
+        })
+
+        watch(() => props.product.stock, (stock) => {
+            if (stock <= 1) {
+                productState.price_color = "rgb(188 30 67)";
+            }
+        })
+
+        return {
+            ...toRefs(productState),
+            applyDiscount,
             sendToCart
-		};
-	}
+        };
+    }
 })
