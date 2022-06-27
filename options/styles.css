@@ -132,3 +132,6 @@ body {
   .badge.offer {
     background-color: rgb(197, 107, 33);
   }
+  .badge.used {
+    background-color: rgb(197, 187, 83);
+  }
