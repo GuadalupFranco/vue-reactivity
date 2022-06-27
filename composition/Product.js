@@ -26,26 +26,18 @@ app.component("product", {
           <span>Cuppon</span>
           <input type="text" placeholder="Enter your code" @keyup.enter="applyDiscount($event)">
         </div>
-        <button :disabled="product.stock == 0" @click="addToCart">Add to cart</button>
+        <button :disabled="product.stock == 0" @click="sendToCart()">Add to cart</button>
     </section>
     `,
 		
 	props: ["product"],
 
-	setup(props) {
+    emits: ["sendtocart"],
+
+	setup(props, context) {
 		const productState = reactive({
 			activeImage: 0,
 		});
-
-		function addToCart() {
-			const prodIndex = cartState.cart.findIndex(prod => prod.name == props.product.name);
-			if (prodIndex >= 0) {
-				cartState.cart[prodIndex].quantity += 1;
-			} else {
-				cartState.cart.push(props.product);
-			}
-			props.product.stock -= 1;
-		}
 
 		const discountCodes = ref(["VUE20", "FRNCO"]);
 		function applyDiscount(event) {
@@ -56,10 +48,14 @@ app.component("product", {
 			}
 		}
 
+        function sendToCart(){
+            context.emit("sendtocart", props.product);
+        }
+
 		return {
 			...toRefs(productState),
-			addToCart,
-			applyDiscount
+			applyDiscount,
+            sendToCart
 		};
 	}
 })
